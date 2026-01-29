@@ -1971,3 +1971,236 @@ tr:hover td {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   THEME TOGGLE & LANGUAGE SELECTOR
+   ============================================ */
+
+/* Theme Toggle Button */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--color-bg-card-hover);
+}
+
+.theme-toggle-track {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle.dark .theme-toggle-track {
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle.dark .theme-toggle-thumb {
+  transform: translateX(24px);
+}
+
+.theme-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-accent-primary);
+}
+
+.theme-toggle.dark .theme-icon {
+  color: #ffc107;
+}
+
+.theme-toggle-label {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Language Selector */
+.language-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.language-selector-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.language-selector-trigger:hover {
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+}
+
+.current-language {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.language-flag {
+  font-size: 1.2em;
+}
+
+.language-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 180px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+[dir="rtl"] .language-dropdown {
+  right: auto;
+  left: 0;
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.language-option:hover {
+  background: var(--color-bg-card-hover);
+}
+
+.language-option.selected {
+  background: rgba(0, 212, 170, 0.1);
+  color: var(--color-accent-primary);
+}
+
+.check-icon {
+  margin-left: auto;
+  color: var(--color-accent-primary);
+}
+
+[dir="rtl"] .check-icon {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* RTL Support */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+body.rtl .sidebar {
+  left: auto;
+  right: 0;
+  border-left: 1px solid var(--color-border);
+  border-right: none;
+}
+
+body.rtl .main-content {
+  margin-left: 0;
+  margin-right: 260px;
+}
+
+body.rtl .sidebar.collapsed ~ .main-content {
+  margin-right: 80px;
+}
+
+@media (max-width: 1024px) {
+  body.rtl .main-content {
+    margin-right: 0;
+  }
+}
+
+/* Theme Light Mode Overrides */
+.theme-light {
+  --color-bg-primary: #f5f7fa;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #e8ecf1;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f0f4f8;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .sidebar {
+  background: var(--color-bg-secondary);
+  border-right-color: var(--color-border);
+}
+
+.theme-light .card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.theme-light input,
+.theme-light select,
+.theme-light textarea {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-border);
+}
+
+.theme-light .table th {
+  background: var(--color-bg-tertiary);
+}
+
+.theme-light .table tr:hover {
+  background: var(--color-bg-tertiary);
+}
+
