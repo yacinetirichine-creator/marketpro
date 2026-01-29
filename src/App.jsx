@@ -7,6 +7,7 @@ import React, { useState, useCallback, useMemo, lazy, Suspense, createContext, u
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ProtectedRoute, PermissionGuard } from './components/security/Guards';
 import { PERMISSIONS, ROLE_NAVIGATION } from './data/roles';
+import { OfflineIndicator, UpdateNotification, InstallPrompt } from './components/PWAComponents';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import './styles/globals.css';
@@ -277,11 +278,15 @@ function AppContent() {
   );
 }
 
-// App wrapper avec AuthProvider
+// App wrapper avec AuthProvider et PWA
 function App() {
   return (
     <AuthProvider>
       <AppContent />
+      {/* PWA Components */}
+      <OfflineIndicator />
+      <UpdateNotification />
+      <InstallPrompt />
     </AuthProvider>
   );
 }

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hors ligne - Market Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #e2e8f0;
+      padding: 20px;
+    }
+    
+    .container {
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 30px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .icon svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: #3b82f6;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #f1f5f9;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      padding: 15px 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+    
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .status-text {
+      color: #f87171;
+      font-weight: 500;
+    }
+    
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid #334155;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+    
+    .tips {
+      margin-top: 50px;
+      padding: 25px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      text-align: left;
+    }
+    
+    .tips h3 {
+      font-size: 1rem;
+      color: #60a5fa;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .tips ul {
+      list-style: none;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+    
+    .tips li {
+      padding: 8px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    
+    .tips li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+    }
+    
+    .logo {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: #3b82f6;
+      font-size: 1.2rem;
+    }
+    
+    .logo svg {
+      width: 35px;
+      height: 35px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+    Market Pro
+  </div>
+  
+  <div class="container">
+    <div class="icon">
+      <svg viewBox="0 0 24 24">
+        <line x1="1" y1="1" x2="23" y2="23"/>
+        <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"/>
+        <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+        <line x1="12" y1="20" x2="12.01" y2="20"/>
+      </svg>
+    </div>
+    
+    <h1>Vous êtes hors ligne</h1>
+    <p>Impossible de se connecter au serveur. Vérifiez votre connexion internet et réessayez.</p>
+    
+    <div class="status">
+      <span class="status-dot"></span>
+      <span class="status-text">Pas de connexion</span>
+    </div>
+    
+    <div class="actions">
+      <button class="btn btn-primary" onclick="window.location.reload()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"/>
+          <polyline points="1 20 1 14 7 14"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        Réessayer
+      </button>
+      
+      <a href="/" class="btn btn-secondary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Retour à l'accueil
+      </a>
+    </div>
+    
+    <div class="tips">
+      <h3>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        Conseils pour rétablir la connexion
+      </h3>
+      <ul>
+        <li>Vérifiez que le Wi-Fi ou les données mobiles sont activés</li>
+        <li>Essayez de vous rapprocher du routeur Wi-Fi</li>
+        <li>Redémarrez votre connexion réseau</li>
+        <li>Contactez votre administrateur réseau si le problème persiste</li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // Vérifier automatiquement la connexion
+    window.addEventListener('online', () => {
+      window.location.reload();
+    });
+    
+    // Réessayer automatiquement toutes les 10 secondes
+    setInterval(() => {
+      fetch('/api/health', { method: 'HEAD' })
+        .then(() => window.location.reload())
+        .catch(() => console.log('Still offline...'));
+    }, 10000);
+  </script>
+</body>
+</html>
