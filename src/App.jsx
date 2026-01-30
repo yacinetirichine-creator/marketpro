@@ -39,6 +39,9 @@ const ProductAnalyticsPage = lazy(() => import('./components/ProductAnalyticsPag
 const PickingPage = lazy(() => import('./components/PickingPage'));
 const ClientOrderPortal = lazy(() => import('./components/ClientOrderPortal'));
 
+// Page Devis
+const QuotesPage = lazy(() => import('./components/QuotesPage'));
+
 // Context pour state global de l'application
 const AppContext = createContext(null);
 
@@ -62,6 +65,7 @@ const PAGES_CONFIG = {
   login: { component: LoginPage, title: '', subtitle: '', showLayout: false, public: true },
   dashboard: { component: Dashboard, title: 'Tableau de bord', subtitle: 'Vue d\'ensemble de votre activité', permission: PERMISSIONS.VIEW_DASHBOARD },
   stocks: { component: StocksPage, title: 'Gestion des stocks', subtitle: 'Inventaire et mouvements', permission: PERMISSIONS.VIEW_PRODUCTS },
+  quotes: { component: QuotesPage, title: 'Devis', subtitle: 'Propositions commerciales', permission: PERMISSIONS.VIEW_ORDERS },
   orders: { component: OrdersPage, title: 'Commandes', subtitle: 'Gestion des commandes clients', permission: PERMISSIONS.VIEW_ORDERS },
   invoices: { component: InvoicesPage, title: 'Facturation', subtitle: 'Factures et règlements', permission: PERMISSIONS.VIEW_INVOICES },
   clients: { component: ClientsPage, title: 'Clients', subtitle: 'Gestion de la clientèle', permission: PERMISSIONS.VIEW_CLIENTS },

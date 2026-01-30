@@ -32,6 +32,7 @@ const Sidebar = ({ currentPage, onNavigate, collapsed, onToggle, mobileOpen, onM
       icon: ShoppingCart,
       label: 'Ventes',
       children: [
+        { id: 'quotes', icon: FileText, label: 'Devis', page: 'quotes' },
         { id: 'new-sale', icon: PlusCircle, label: 'Nouvelle Vente', page: 'orders', action: 'new' },
         { id: 'search-sale', icon: Search, label: 'Recherche Vente', page: 'orders' },
         { id: 'unpaid-invoices', icon: AlertCircle, label: 'Factures non soldées', page: 'invoices', filter: 'unpaid' },
