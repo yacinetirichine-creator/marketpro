@@ -9,11 +9,9 @@ import {
   ChevronDown, ChevronRight, Check, X, Loader2, Settings,
   Package, AlertTriangle, CheckCircle
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 
 const LocationsPage = () => {
-  const { t } = useTranslation();
 
   // States
   const [locations, setLocations] = useState([]);

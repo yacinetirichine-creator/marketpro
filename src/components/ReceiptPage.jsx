@@ -9,13 +9,11 @@ import {
   Search, Filter, Plus, Eye, Edit, Trash2, Download,
   QrCode, BarChart3, CheckCircle, XCircle, Loader2
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ocrService from '../services/ocrService';
 import { generateLocationCode, suggestStorageZone } from '../services/skuService';
 
 const ReceiptPage = () => {
-  const { t } = useTranslation();
 
   // States
   const [receipts, setReceipts] = useState([]);

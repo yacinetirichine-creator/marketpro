@@ -9,11 +9,9 @@ import {
   Star, ChevronDown, ChevronRight, Grid3X3, List, Loader2,
   Calendar, Phone, Mail, User, ShoppingBag, History, FileText
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 
 const ClientOrderPortal = () => {
-  const { t } = useTranslation();
 
   // States
   const [products, setProducts] = useState([]);

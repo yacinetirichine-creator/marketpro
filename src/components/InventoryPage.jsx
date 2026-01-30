@@ -9,11 +9,9 @@ import {
   Eye, Edit, Trash2, Download, RefreshCw, Loader2, CheckCircle,
   ChevronDown, ChevronRight, Calculator
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 
 const InventoryPage = () => {
-  const { t } = useTranslation();
 
   // States
   const [inventories, setInventories] = useState([]);

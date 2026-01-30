@@ -9,12 +9,10 @@ import {
   QrCode, Camera, Search, Filter, Plus, Eye, Loader2, BarChart3,
   ArrowRight, CheckCircle, XCircle, RefreshCw
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import pickingService from '../services/pickingService';
 
 const PickingPage = () => {
-  const { t } = useTranslation();
 
   // States
   const [pickingLists, setPickingLists] = useState([]);

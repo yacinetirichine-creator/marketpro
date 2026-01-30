@@ -8,7 +8,6 @@ import {
   DollarSign, RotateCw, Calendar, Filter, Download, RefreshCw,
   ArrowUp, ArrowDown, Minus, Eye, ChevronDown, Loader2
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend,
@@ -17,7 +16,6 @@ import {
 import api from '../services/api';
 
 const ProductAnalyticsPage = () => {
-  const { t } = useTranslation();
 
   // States
   const [products, setProducts] = useState([]);

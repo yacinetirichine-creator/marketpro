@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles/globals.css';
 
-// Initialiser i18n
-import './i18n';
-
 // Import du ThemeProvider
 import { ThemeProvider } from './contexts/ThemeContext';
 
