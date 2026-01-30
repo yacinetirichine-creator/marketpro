@@ -8,7 +8,7 @@ import {
   Calculator, Printer, AlertCircle, Scan, Shield, Warehouse
 } from 'lucide-react';
 
-const Sidebar = ({ currentPage, onNavigate, collapsed, onToggle, user, onLogout }) => {
+const Sidebar = ({ currentPage, onNavigate, collapsed, onToggle, mobileOpen, onMobileClose, user, onLogout }) => {
   const [expandedMenus, setExpandedMenus] = useState(['ventes', 'clients', 'achats']);
 
   const toggleMenu = (menuId) => {
@@ -149,7 +149,7 @@ const Sidebar = ({ currentPage, onNavigate, collapsed, onToggle, user, onLogout 
   };
 
   return (
-    <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+    <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
       {/* Logo */}
       <div className="sidebar-header">
         <div className="logo" onClick={() => onNavigate('landing')}>

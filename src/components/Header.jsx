@@ -16,7 +16,9 @@ const Header = ({
   onNotificationRead,
   onMarkAllRead,
   user,
-  onLogout
+  onLogout,
+  onMobileMenuToggle,
+  mobileMenuOpen
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -55,6 +57,15 @@ const Header = ({
   return (
     <header className="app-header">
       <div className="header-left">
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="mobile-menu-toggle"
+          onClick={onMobileMenuToggle}
+          aria-label="Toggle menu"
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+        
         <div className="header-titles">
           <h1 className="header-title">{title}</h1>
           {subtitle && <p className="header-subtitle">{subtitle}</p>}

@@ -44,7 +44,47 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
 -- ============================================
--- TABLE: products
+-- TABLE: suppliers (fournisseurs) - AVANT products pour la FK
+-- ============================================
+CREATE TABLE IF NOT EXISTS suppliers (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  
+  -- Entreprise
+  company_name TEXT NOT NULL,
+  siret TEXT,
+  website TEXT,
+  
+  -- Contact
+  contact_name TEXT,
+  contact_email TEXT,
+  contact_phone TEXT,
+  
+  -- Adresse
+  address_street TEXT,
+  address_city TEXT,
+  address_postal_code TEXT,
+  address_country TEXT DEFAULT 'France',
+  
+  -- Conditions
+  payment_terms INTEGER DEFAULT 30,
+  delivery_time INTEGER DEFAULT 3,
+  minimum_order DECIMAL(10,2) DEFAULT 0,
+  
+  -- Catégories fournies
+  categories TEXT[],
+  
+  -- Autres
+  rating DECIMAL(3,2) DEFAULT 0,
+  notes TEXT,
+  status TEXT DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'INACTIVE', 'BLOCKED')),
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ============================================
+-- TABLE: products (après suppliers pour la FK)
 -- ============================================
 CREATE TABLE IF NOT EXISTS products (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -136,46 +176,6 @@ CREATE TABLE IF NOT EXISTS clients (
 
 CREATE INDEX IF NOT EXISTS idx_clients_code ON clients(code);
 CREATE INDEX IF NOT EXISTS idx_clients_company ON clients(company_name);
-
--- ============================================
--- TABLE: suppliers (fournisseurs)
--- ============================================
-CREATE TABLE IF NOT EXISTS suppliers (
-  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  code TEXT UNIQUE NOT NULL,
-  
-  -- Entreprise
-  company_name TEXT NOT NULL,
-  siret TEXT,
-  website TEXT,
-  
-  -- Contact
-  contact_name TEXT,
-  contact_email TEXT,
-  contact_phone TEXT,
-  
-  -- Adresse
-  address_street TEXT,
-  address_city TEXT,
-  address_postal_code TEXT,
-  address_country TEXT DEFAULT 'France',
-  
-  -- Conditions
-  payment_terms INTEGER DEFAULT 30,
-  delivery_time INTEGER DEFAULT 3,
-  minimum_order DECIMAL(10,2) DEFAULT 0,
-  
-  -- Catégories fournies
-  categories TEXT[],
-  
-  -- Autres
-  rating DECIMAL(3,2) DEFAULT 0,
-  notes TEXT,
-  status TEXT DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'INACTIVE', 'BLOCKED')),
-  
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
 
 -- ============================================
 -- TABLE: orders (commandes)
@@ -427,6 +427,15 @@ CREATE POLICY "Admins and managers can manage products" ON products
     EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'MAGASINIER'))
   );
 
+-- Policies pour suppliers
+CREATE POLICY "Authenticated users can view suppliers" ON suppliers
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Admins and managers can manage suppliers" ON suppliers
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER'))
+  );
+
 -- Policies pour clients
 CREATE POLICY "Authenticated users can view clients" ON clients
   FOR SELECT USING (auth.role() = 'authenticated');
@@ -445,6 +454,15 @@ CREATE POLICY "Users can manage orders" ON orders
     EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'COMMERCIAL', 'CAISSIER'))
   );
 
+-- Policies pour order_items
+CREATE POLICY "Authenticated users can view order items" ON order_items
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Users can manage order items" ON order_items
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'COMMERCIAL', 'CAISSIER'))
+  );
+
 -- Policies pour invoices
 CREATE POLICY "Authenticated users can view invoices" ON invoices
   FOR SELECT USING (auth.role() = 'authenticated');
@@ -453,6 +471,42 @@ CREATE POLICY "Admins and comptables can manage invoices" ON invoices
   FOR ALL USING (
     EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'COMPTABLE'))
   );
+
+-- Policies pour invoice_items
+CREATE POLICY "Authenticated users can view invoice items" ON invoice_items
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Admins and comptables can manage invoice items" ON invoice_items
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'COMPTABLE'))
+  );
+
+-- Policies pour payments
+CREATE POLICY "Authenticated users can view payments" ON payments
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Admins and comptables can manage payments" ON payments
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'COMPTABLE', 'CAISSIER'))
+  );
+
+-- Policies pour stock_movements
+CREATE POLICY "Authenticated users can view stock movements" ON stock_movements
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Warehouse staff can manage stock" ON stock_movements
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER', 'MAGASINIER'))
+  );
+
+-- Policies pour audit_logs
+CREATE POLICY "Admins can view audit logs" ON audit_logs
+  FOR SELECT USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'ADMIN')
+  );
+
+CREATE POLICY "All users can insert audit logs" ON audit_logs
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
 -- ============================================
 -- FONCTIONS UTILITAIRES
@@ -524,12 +578,25 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Appliquer le trigger sur toutes les tables avec updated_at
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
 CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+DROP TRIGGER IF EXISTS update_products_updated_at ON products;
 CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+DROP TRIGGER IF EXISTS update_clients_updated_at ON clients;
 CREATE TRIGGER update_clients_updated_at BEFORE UPDATE ON clients FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+DROP TRIGGER IF EXISTS update_suppliers_updated_at ON suppliers;
 CREATE TRIGGER update_suppliers_updated_at BEFORE UPDATE ON suppliers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+DROP TRIGGER IF EXISTS update_orders_updated_at ON orders;
 CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON orders FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+DROP TRIGGER IF EXISTS update_invoices_updated_at ON invoices;
 CREATE TRIGGER update_invoices_updated_at BEFORE UPDATE ON invoices FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+DROP TRIGGER IF EXISTS update_payments_updated_at ON payments;
 CREATE TRIGGER update_payments_updated_at BEFORE UPDATE ON payments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- ============================================

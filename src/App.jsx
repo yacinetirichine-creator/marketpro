@@ -73,6 +73,7 @@ const PAGES_CONFIG = {
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('landing');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [globalSearch, setGlobalSearch] = useState('');
   const [notifications, setNotifications] = useState([
     { id: 1, type: 'warning', message: 'Stock bas: Filet de bœuf', time: '5 min', read: false },
@@ -130,6 +131,16 @@ function AppContent() {
     setSidebarCollapsed(prev => !prev);
   }, []);
 
+  // Toggle mobile menu
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen(prev => !prev);
+  }, []);
+
+  // Close mobile menu
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
+
   // Marquer notification comme lue
   const markNotificationRead = useCallback((id) => {
     setNotifications(prev => 
@@ -173,13 +184,17 @@ function AppContent() {
     markAllNotificationsRead,
     sidebarCollapsed,
     toggleSidebar,
+    mobileMenuOpen,
+    toggleMobileMenu,
+    closeMobileMenu,
     handleLogout,
     user,
     isAuthenticated,
   }), [
     currentPage, navigate, globalSearch, notifications, 
     unreadCount, markNotificationRead, markAllNotificationsRead,
-    sidebarCollapsed, toggleSidebar, handleLogout, user, isAuthenticated
+    sidebarCollapsed, toggleSidebar, mobileMenuOpen, toggleMobileMenu, closeMobileMenu,
+    handleLogout, user, isAuthenticated
   ]);
 
   // Configuration page actuelle
@@ -235,11 +250,19 @@ function AppContent() {
     <AppContext.Provider value={contextValue}>
       <ProtectedRoute fallback={<Suspense fallback={<PageLoader />}><LoginPage onLoginSuccess={handleLoginSuccess} /></Suspense>}>
         <div className={`app-container ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+          {/* Mobile overlay */}
+          <div 
+            className={`mobile-overlay ${mobileMenuOpen ? 'active' : ''}`}
+            onClick={closeMobileMenu}
+          />
+          
           <Sidebar 
             currentPage={currentPage} 
-            onNavigate={navigate}
+            onNavigate={(page) => { navigate(page); closeMobileMenu(); }}
             collapsed={sidebarCollapsed}
             onToggle={toggleSidebar}
+            mobileOpen={mobileMenuOpen}
+            onMobileClose={closeMobileMenu}
             user={user}
             onLogout={handleLogout}
           />
@@ -256,6 +279,8 @@ function AppContent() {
               onMarkAllRead={markAllNotificationsRead}
               user={user}
               onLogout={handleLogout}
+              onMobileMenuToggle={toggleMobileMenu}
+              mobileMenuOpen={mobileMenuOpen}
             />
             
             <div className="page-content">
