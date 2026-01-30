@@ -25,6 +25,13 @@ const reportsRoutes = require('./routes/reports.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const auditRoutes = require('./routes/audit.routes');
 
+// Routes logistique
+const locationsRoutes = require('./routes/locations');
+const receiptsRoutes = require('./routes/receipts');
+const inventoryRoutes = require('./routes/inventory');
+const pickingRoutes = require('./routes/picking');
+const categoriesRoutes = require('./routes/categories');
+
 // Import des middlewares
 const errorHandler = require('./middleware/errorHandler');
 const { notFound } = require('./middleware/notFound');
@@ -117,6 +124,13 @@ app.use('/api/purchases', purchasesRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/audit', auditRoutes);
+
+// Routes logistique
+app.use('/api/locations', locationsRoutes);
+app.use('/api/receipts', receiptsRoutes);
+app.use('/api/inventory', inventoryRoutes);
+app.use('/api/picking', pickingRoutes);
+app.use('/api/categories', categoriesRoutes);
 
 // ============================================
 // GESTION DES ERREURS

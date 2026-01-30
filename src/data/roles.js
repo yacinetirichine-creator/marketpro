@@ -90,7 +90,32 @@ export const PERMISSIONS = {
   CLIENT_VIEW_ORDERS: 'client_view_orders',
   CLIENT_CREATE_ORDER: 'client_create_order',
   CLIENT_VIEW_INVOICES: 'client_view_invoices',
-  CLIENT_VIEW_BALANCE: 'client_view_balance'
+  CLIENT_VIEW_BALANCE: 'client_view_balance',
+
+  // Logistique - Réception
+  VIEW_RECEIPTS: 'view_receipts',
+  CREATE_RECEIPT: 'create_receipt',
+  VALIDATE_RECEIPT: 'validate_receipt',
+
+  // Logistique - Emplacements
+  VIEW_LOCATIONS: 'view_locations',
+  MANAGE_LOCATIONS: 'manage_locations',
+
+  // Logistique - Inventaire
+  VIEW_INVENTORY: 'view_inventory',
+  CREATE_INVENTORY: 'create_inventory',
+  VALIDATE_INVENTORY: 'validate_inventory',
+
+  // Logistique - Picking
+  VIEW_PICKING: 'view_picking',
+  CREATE_PICKING: 'create_picking',
+  EXECUTE_PICKING: 'execute_picking',
+
+  // Analytics produits
+  VIEW_PRODUCT_ANALYTICS: 'view_product_analytics',
+
+  // Portail commande client
+  CLIENT_ORDER_PORTAL: 'client_order_portal'
 };
 
 // Permissions par rôle
@@ -126,7 +151,20 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.MANAGE_SUPPLIERS,
     PERMISSIONS.VIEW_REPORTS,
     PERMISSIONS.EXPORT_REPORTS,
-    PERMISSIONS.VIEW_SETTINGS
+    PERMISSIONS.VIEW_SETTINGS,
+    // Logistique
+    PERMISSIONS.VIEW_RECEIPTS,
+    PERMISSIONS.CREATE_RECEIPT,
+    PERMISSIONS.VALIDATE_RECEIPT,
+    PERMISSIONS.VIEW_LOCATIONS,
+    PERMISSIONS.MANAGE_LOCATIONS,
+    PERMISSIONS.VIEW_INVENTORY,
+    PERMISSIONS.CREATE_INVENTORY,
+    PERMISSIONS.VALIDATE_INVENTORY,
+    PERMISSIONS.VIEW_PICKING,
+    PERMISSIONS.CREATE_PICKING,
+    PERMISSIONS.EXECUTE_PICKING,
+    PERMISSIONS.VIEW_PRODUCT_ANALYTICS
   ],
   
   [ROLES.COMMERCIAL]: [
@@ -171,7 +209,19 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.VALIDATE_ORDER,
     PERMISSIONS.VIEW_PURCHASES,
     PERMISSIONS.CREATE_PURCHASE,
-    PERMISSIONS.VIEW_SUPPLIERS
+    PERMISSIONS.VIEW_SUPPLIERS,
+    // Logistique
+    PERMISSIONS.VIEW_RECEIPTS,
+    PERMISSIONS.CREATE_RECEIPT,
+    PERMISSIONS.VALIDATE_RECEIPT,
+    PERMISSIONS.VIEW_LOCATIONS,
+    PERMISSIONS.MANAGE_LOCATIONS,
+    PERMISSIONS.VIEW_INVENTORY,
+    PERMISSIONS.CREATE_INVENTORY,
+    PERMISSIONS.VALIDATE_INVENTORY,
+    PERMISSIONS.VIEW_PICKING,
+    PERMISSIONS.CREATE_PICKING,
+    PERMISSIONS.EXECUTE_PICKING
   ],
   
   [ROLES.COMPTABLE]: [
@@ -195,19 +245,20 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.CLIENT_VIEW_ORDERS,
     PERMISSIONS.CLIENT_CREATE_ORDER,
     PERMISSIONS.CLIENT_VIEW_INVOICES,
-    PERMISSIONS.CLIENT_VIEW_BALANCE
+    PERMISSIONS.CLIENT_VIEW_BALANCE,
+    PERMISSIONS.CLIENT_ORDER_PORTAL
   ]
 };
 
 // Navigation par rôle
 export const ROLE_NAVIGATION = {
-  [ROLES.ADMIN]: ['dashboard', 'clients', 'stocks', 'orders', 'invoices', 'payments', 'purchases', 'suppliers', 'scanner', 'reports', 'settings'],
-  [ROLES.MANAGER]: ['dashboard', 'clients', 'stocks', 'orders', 'invoices', 'payments', 'purchases', 'suppliers', 'scanner', 'reports', 'settings'],
+  [ROLES.ADMIN]: ['dashboard', 'clients', 'stocks', 'orders', 'invoices', 'payments', 'purchases', 'suppliers', 'scanner', 'wms', 'receipts', 'locations', 'inventory', 'picking', 'product-analytics', 'reports', 'users', 'settings'],
+  [ROLES.MANAGER]: ['dashboard', 'clients', 'stocks', 'orders', 'invoices', 'payments', 'purchases', 'suppliers', 'scanner', 'wms', 'receipts', 'locations', 'inventory', 'picking', 'product-analytics', 'reports', 'settings'],
   [ROLES.COMMERCIAL]: ['dashboard', 'clients', 'stocks', 'orders', 'invoices', 'scanner', 'reports'],
   [ROLES.CAISSIER]: ['dashboard', 'clients', 'orders', 'invoices', 'payments', 'scanner'],
-  [ROLES.MAGASINIER]: ['dashboard', 'stocks', 'orders', 'purchases', 'suppliers', 'scanner'],
-  [ROLES.COMPTABLE]: ['dashboard', 'clients', 'invoices', 'payments', 'purchases', 'suppliers', 'reports'],
-  [ROLES.CLIENT]: ['client-dashboard', 'client-orders', 'client-invoices', 'client-profile']
+  [ROLES.MAGASINIER]: ['dashboard', 'stocks', 'orders', 'purchases', 'suppliers', 'scanner', 'wms', 'receipts', 'locations', 'inventory', 'picking'],
+  [ROLES.COMPTABLE]: ['dashboard', 'clients', 'invoices', 'payments', 'purchases', 'suppliers', 'reports', 'product-analytics'],
+  [ROLES.CLIENT]: ['client-dashboard', 'client-orders', 'client-invoices', 'client-profile', 'order-portal']
 };
 
 // Utilisateurs mockés

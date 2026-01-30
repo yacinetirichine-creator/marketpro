@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { 
-  LayoutDashboard, Package, ShoppingCart, FileText, Users, 
+import {
+  LayoutDashboard, Package, ShoppingCart, FileText, Users,
   TrendingUp, Truck, CreditCard, BarChart3, Settings, LogOut,
   ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Menu,
   PlusCircle, Search, Receipt, Wallet, ClipboardList, Building2,
   PackagePlus, FileSearch, UserPlus, UserCircle2, Star, Archive,
-  Calculator, Printer, AlertCircle, Scan, Shield, Warehouse
+  Calculator, Printer, AlertCircle, Scan, Shield, Warehouse,
+  MapPin, PackageCheck, ClipboardCheck, LineChart, ShoppingBag, Store
 } from 'lucide-react';
 
 const Sidebar = ({ currentPage, onNavigate, collapsed, onToggle, mobileOpen, onMobileClose, user, onLogout }) => {
-  const [expandedMenus, setExpandedMenus] = useState(['ventes', 'clients', 'achats']);
+  const [expandedMenus, setExpandedMenus] = useState(['ventes', 'clients', 'achats', 'logistique']);
 
   const toggleMenu = (menuId) => {
     setExpandedMenus(prev => 
@@ -111,6 +112,24 @@ const Sidebar = ({ currentPage, onNavigate, collapsed, onToggle, mobileOpen, onM
       icon: Warehouse,
       label: 'WMS - Logistique',
       page: 'wms'
+    },
+    {
+      id: 'logistique',
+      icon: PackageCheck,
+      label: 'Logistique Avancée',
+      children: [
+        { id: 'receipts', icon: Receipt, label: 'Réception Marchandises', page: 'receipts' },
+        { id: 'locations', icon: MapPin, label: 'Emplacements', page: 'locations' },
+        { id: 'inventory-mgmt', icon: ClipboardCheck, label: 'Inventaire', page: 'inventory' },
+        { id: 'picking', icon: ShoppingBag, label: 'Préparation Commandes', page: 'picking' },
+        { id: 'product-analytics', icon: LineChart, label: 'Analytics Produits', page: 'product-analytics' },
+      ]
+    },
+    {
+      id: 'order-portal',
+      icon: Store,
+      label: 'Portail Commande',
+      page: 'order-portal'
     },
     {
       id: 'reports',

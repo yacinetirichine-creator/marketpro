@@ -12,6 +12,14 @@ const Payment = require('./Payment');
 const StockMovement = require('./StockMovement');
 const AuditLog = require('./AuditLog');
 
+// Nouveaux modèles logistique
+const Location = require('./Location');
+const StockLot = require('./StockLot');
+const Receipt = require('./Receipt');
+const Inventory = require('./Inventory');
+const PickingList = require('./PickingList');
+const Category = require('./Category');
+
 module.exports = {
   User,
   Product,
@@ -21,5 +29,12 @@ module.exports = {
   Invoice,
   Payment,
   StockMovement,
-  AuditLog
+  AuditLog,
+  // Nouveaux modèles
+  Location,
+  StockLot,
+  Receipt,
+  Inventory,
+  PickingList,
+  Category
 };

@@ -31,6 +31,14 @@ const ClientPortal = lazy(() => import('./components/ClientPortal'));
 const UsersManagementPage = lazy(() => import('./components/UsersManagementPage'));
 const WMSPage = lazy(() => import('./components/WMSPage'));
 
+// Nouvelles pages logistique
+const ReceiptPage = lazy(() => import('./components/ReceiptPage'));
+const LocationsPage = lazy(() => import('./components/LocationsPage'));
+const InventoryPage = lazy(() => import('./components/InventoryPage'));
+const ProductAnalyticsPage = lazy(() => import('./components/ProductAnalyticsPage'));
+const PickingPage = lazy(() => import('./components/PickingPage'));
+const ClientOrderPortal = lazy(() => import('./components/ClientOrderPortal'));
+
 // Context pour state global de l'application
 const AppContext = createContext(null);
 
@@ -67,6 +75,14 @@ const PAGES_CONFIG = {
   users: { component: UsersManagementPage, title: 'Utilisateurs', subtitle: 'Gestion des équipes et rôles', permission: PERMISSIONS.MANAGE_USERS },
   wms: { component: WMSPage, title: 'WMS - Logistique', subtitle: 'Gestion entrepôt et préparation', permission: PERMISSIONS.MANAGE_STOCK },
   'client-portal': { component: ClientPortal, title: '', subtitle: '', showLayout: false, permission: PERMISSIONS.CLIENT_VIEW_ORDERS },
+
+  // Nouvelles pages logistique
+  receipts: { component: ReceiptPage, title: 'Réception Marchandises', subtitle: 'Réception fournisseurs avec OCR et scan', permission: PERMISSIONS.VIEW_RECEIPTS },
+  locations: { component: LocationsPage, title: 'Emplacements Entrepôt', subtitle: 'Gestion des zones et emplacements', permission: PERMISSIONS.VIEW_LOCATIONS },
+  inventory: { component: InventoryPage, title: 'Inventaire', subtitle: 'Gestion des inventaires et comptages', permission: PERMISSIONS.VIEW_INVENTORY },
+  'product-analytics': { component: ProductAnalyticsPage, title: 'Analytics Produits', subtitle: 'Analyse ABC/XYZ et performances', permission: PERMISSIONS.VIEW_PRODUCT_ANALYTICS },
+  picking: { component: PickingPage, title: 'Préparation Commandes', subtitle: 'Picking optimisé et suivi', permission: PERMISSIONS.VIEW_PICKING },
+  'order-portal': { component: ClientOrderPortal, title: 'Portail Commande', subtitle: 'Commande en ligne client', showLayout: false, permission: PERMISSIONS.CLIENT_ORDER_PORTAL },
 };
 
 // Composant principal avec authentification
@@ -239,6 +255,19 @@ function AppContent() {
         <ProtectedRoute fallback={<Suspense fallback={<PageLoader />}><LoginPage onLoginSuccess={handleLoginSuccess} /></Suspense>}>
           <Suspense fallback={<PageLoader />}>
             <ClientPortal />
+          </Suspense>
+        </ProtectedRoute>
+      </AppContext.Provider>
+    );
+  }
+
+  // Portail commande client (layout spécifique)
+  if (currentPage === 'order-portal') {
+    return (
+      <AppContext.Provider value={contextValue}>
+        <ProtectedRoute fallback={<Suspense fallback={<PageLoader />}><LoginPage onLoginSuccess={handleLoginSuccess} /></Suspense>}>
+          <Suspense fallback={<PageLoader />}>
+            <ClientOrderPortal />
           </Suspense>
         </ProtectedRoute>
       </AppContext.Provider>
