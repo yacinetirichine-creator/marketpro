@@ -4,19 +4,45 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
   ComposedChart, ReferenceLine
 } from 'recharts';
-import { 
-  TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart, 
+import {
+  TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart,
   Package, AlertTriangle, Clock, Truck, CheckCircle, ArrowRight,
   Calendar, Target, Zap, Activity
 } from 'lucide-react';
 import { StatCard, ProgressBar, StatusBadge, Alert, Card, Button } from './ui';
 import { useFormatters } from '../hooks';
-import { 
-  globalKPIs, monthlyFinancials, financialPredictions, 
-  clients, products, orders, stockAlerts 
+import { useAuth } from '../context/AuthContext';
+import { ROLES } from '../data/roles';
+import {
+  globalKPIs, monthlyFinancials, financialPredictions,
+  clients, products, orders, stockAlerts
 } from '../data/mockData';
 
+// Import des dashboards spécialisés par rôle
+import RoleDashboard from './dashboards';
+
 const Dashboard = () => {
+  const { user } = useAuth();
+  const userRole = user?.role;
+
+  // Afficher le dashboard spécialisé si l'utilisateur a un rôle défini
+  // et que ce n'est pas le rôle admin classique (qui garde l'ancien dashboard)
+  const specializedRoles = [
+    ROLES.SUPER_ADMIN,
+    ROLES.RESP_LOGISTIQUE,
+    ROLES.RESP_COMPTABLE,
+    ROLES.LOGISTICIEN,
+    ROLES.MAGASINIER,
+    ROLES.COMPTABLE,
+    ROLES.COMMERCIAL,
+    ROLES.CAISSIER
+  ];
+
+  if (userRole && specializedRoles.includes(userRole)) {
+    return <RoleDashboard />;
+  }
+
+  // Dashboard classique pour Admin et fallback
   const [period, setPeriod] = useState('12m');
   const { formatCurrency, formatNumber, formatPercent } = useFormatters();
 
