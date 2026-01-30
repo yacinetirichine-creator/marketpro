@@ -6,6 +6,9 @@ import './styles/globals.css';
 // Import du ThemeProvider
 import { ThemeProvider } from './contexts/ThemeContext';
 
+// Import de l'ErrorBoundary pour la gestion globale des erreurs
+import ErrorBoundary from './components/ErrorBoundary';
+
 // Composant de chargement
 const LoadingFallback = () => (
   <div style={{
@@ -39,10 +42,12 @@ const LoadingFallback = () => (
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<LoadingFallback />}>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingFallback />}>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </Suspense>
+    </ErrorBoundary>
   </React.StrictMode>
 );

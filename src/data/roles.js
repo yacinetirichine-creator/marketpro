@@ -607,13 +607,14 @@ export const ROLE_NAVIGATION = {
 
 // ============================================
 // UTILISATEURS DE DÉMONSTRATION
+// Note: Les mots de passe sont stockés côté serveur uniquement
+// Ces données sont utilisées pour l'affichage UI uniquement
 // ============================================
 
 export const mockUsers = [
   {
     id: 'USR001',
     email: 'superadmin@marketpro.fr',
-    password: 'superadmin123',
     firstName: 'Alexandre',
     lastName: 'Directeur',
     role: ROLES.SUPER_ADMIN,
@@ -627,7 +628,6 @@ export const mockUsers = [
   {
     id: 'USR002',
     email: 'admin@marketpro.fr',
-    password: 'admin123',
     firstName: 'Jean',
     lastName: 'Dupont',
     role: ROLES.ADMIN,
@@ -641,7 +641,6 @@ export const mockUsers = [
   {
     id: 'USR003',
     email: 'resp.logistique@marketpro.fr',
-    password: 'resplog123',
     firstName: 'Marie',
     lastName: 'Logistica',
     role: ROLES.RESP_LOGISTIQUE,
@@ -655,7 +654,6 @@ export const mockUsers = [
   {
     id: 'USR004',
     email: 'resp.comptable@marketpro.fr',
-    password: 'respcompta123',
     firstName: 'Philippe',
     lastName: 'Comptafort',
     role: ROLES.RESP_COMPTABLE,
@@ -669,7 +667,6 @@ export const mockUsers = [
   {
     id: 'USR005',
     email: 'logisticien@marketpro.fr',
-    password: 'logisticien123',
     firstName: 'Lucas',
     lastName: 'Preparateur',
     role: ROLES.LOGISTICIEN,
@@ -683,7 +680,6 @@ export const mockUsers = [
   {
     id: 'USR006',
     email: 'magasinier@marketpro.fr',
-    password: 'magasinier123',
     firstName: 'Thomas',
     lastName: 'Stockman',
     role: ROLES.MAGASINIER,
@@ -697,7 +693,6 @@ export const mockUsers = [
   {
     id: 'USR007',
     email: 'comptable@marketpro.fr',
-    password: 'comptable123',
     firstName: 'Claire',
     lastName: 'Dubois',
     role: ROLES.COMPTABLE,
@@ -711,7 +706,6 @@ export const mockUsers = [
   {
     id: 'USR008',
     email: 'commercial@marketpro.fr',
-    password: 'commercial123',
     firstName: 'Pierre',
     lastName: 'Bernard',
     role: ROLES.COMMERCIAL,
@@ -725,7 +719,6 @@ export const mockUsers = [
   {
     id: 'USR009',
     email: 'caissier@marketpro.fr',
-    password: 'caissier123',
     firstName: 'Sophie',
     lastName: 'Petit',
     role: ROLES.CAISSIER,
@@ -739,7 +732,6 @@ export const mockUsers = [
   {
     id: 'USR010',
     email: 'client@restaurant-lyon.fr',
-    password: 'client123',
     firstName: 'Marc',
     lastName: 'Restaurant',
     role: ROLES.CLIENT,
@@ -791,20 +783,27 @@ export const getManageableRoles = (userRole) => {
 };
 
 /**
- * Récupère un utilisateur par email
+ * Récupère un utilisateur par email (données publiques uniquement)
  */
 export const getUserByEmail = (email) => {
   return mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
 };
 
 /**
- * Authentifie un utilisateur
+ * Note: L'authentification doit être faite côté serveur
+ * Cette fonction est dépréciée - utiliser l'API d'authentification
+ * @deprecated Utiliser AuthContext.login() qui appelle l'API backend
  */
-export const authenticateUser = (email, password) => {
+export const authenticateUser = async (email, password) => {
+  console.warn('[SECURITY] authenticateUser est déprécié. Utiliser AuthContext.login()');
+  // L'authentification réelle doit passer par le backend
+  // Cette fonction ne fait plus de vérification de mot de passe côté client
   const user = getUserByEmail(email);
-  if (user && user.password === password && user.active) {
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+  if (user && user.active) {
+    // En mode démo uniquement - à supprimer en production
+    if (process.env.NODE_ENV === 'development') {
+      return user;
+    }
   }
   return null;
 };
